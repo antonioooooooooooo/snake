@@ -151,40 +151,34 @@ export default {
 
       this.canvas.context.fillStyle = gradient;
       this.canvas.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-      if (this.gameOver) {
-        this.canvas.context.fillStyle = "rgba(255, 255, 255, 0.2)";
-        this.canvas.context.font = this.canvas.width / 10 + "px Open Sans";
-        this.canvas.context.fillText(
-          "GAME OVER",
-          this.canvas.width / 4,
-          this.canvas.height / 3.5
-        );
-      }
 
       let lineWidth = 1;
-      this.snake.queue.forEach((elem, idx) => {
-        if (idx === this.snake.queue.length - 1) {
-          this.canvas.context.fillStyle = "#c0392b";
-          this.canvas.context.strokeStyle = "#ecf0f1";
-          this.canvas.context.lineWidth = lineWidth + 5;
-          this.canvas.context.strokeRect(
-            elem.posX * this.canvas.gridSize,
-            elem.posY * this.canvas.gridSize,
-            this.canvas.gridSize - 2,
-            this.canvas.gridSize - 2
-          );
-        } else {
-          this.canvas.context.fillStyle = this.snake.fillStyle;
-          this.canvas.context.strokeStyle = "#ecf0f1";
-          this.canvas.context.lineWidth = lineWidth;
-          lineWidth += 0.3;
-          this.canvas.context.strokeRect(
-            elem.posX * this.canvas.gridSize,
-            elem.posY * this.canvas.gridSize,
-            this.canvas.gridSize - 2,
-            this.canvas.gridSize - 2
-          );
-        }
+
+      if (!this.gameOver) {
+        this.snake.queue.forEach((elem, idx) => {
+          if (idx === this.snake.queue.length - 1) {
+            this.canvas.context.fillStyle = "#c0392b";
+            this.canvas.context.strokeStyle = "#ecf0f1";
+            this.canvas.context.lineWidth = lineWidth + 5;
+            this.canvas.context.strokeRect(
+              elem.posX * this.canvas.gridSize,
+              elem.posY * this.canvas.gridSize,
+              this.canvas.gridSize - 2,
+              this.canvas.gridSize - 2
+            );
+          } else {
+            this.canvas.context.fillStyle = this.snake.fillStyle;
+            this.canvas.context.strokeStyle = "#ecf0f1";
+            this.canvas.context.lineWidth = lineWidth;
+            lineWidth += 0.3;
+            this.canvas.context.strokeRect(
+              elem.posX * this.canvas.gridSize,
+              elem.posY * this.canvas.gridSize,
+              this.canvas.gridSize - 2,
+              this.canvas.gridSize - 2
+            );
+          }
+        });
 
         this.canvas.context.fillStyle = this.target.fillStyle;
         this.canvas.context.fillRect(
@@ -193,15 +187,29 @@ export default {
           this.canvas.gridSize,
           this.canvas.gridSize
         );
+      } else {
+        const gameOverText = "GAME OVER";
+        const scoreText = "SCORE : " + parseInt(this.snake.size - 1);
 
-        this.canvas.context.fillStyle = "rgba(255, 255, 255, 0.2)";
+        this.canvas.context.textBaseline = "middle";
+        this.canvas.context.textAlign = "center";
+
+        this.canvas.context.fillStyle = "rgba(255, 255, 255, 0.8)";
+        this.canvas.context.font = this.canvas.width / 10 + "px Open Sans";
+        this.canvas.context.fillText(
+          gameOverText,
+          this.canvas.width / 2,
+          this.canvas.height / 2 - 100
+        );
+
+        this.canvas.context.fillStyle = "rgba(255, 255, 255, 0.6)";
         this.canvas.font = this.canvas.width / 10 + "px Open Sans";
         this.canvas.context.fillText(
-          "SCORE : " + parseInt(this.snake.size - 1),
-          this.canvas.width / 3.2,
-          this.canvas.height / 1.9
+          scoreText,
+          this.canvas.width / 2,
+          this.canvas.height / 2 + 100
         );
-      });
+      }
     },
     onKeyDown(e) {
       if (e.keyCode === 37) {
