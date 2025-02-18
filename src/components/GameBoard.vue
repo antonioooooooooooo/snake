@@ -27,7 +27,7 @@ export default {
       target: {
         posX: 0,
         posY: 0,
-        fillStyle: "red",
+        fillStyle: "brown",
       },
       velocity: {
         x: 1,
@@ -103,6 +103,7 @@ export default {
         this.snake.posY === this.target.posY
       ) {
         this.snake.size++;
+        this.snake.speed++;
 
         let isInvalidNewLocation = true;
 
@@ -139,9 +140,17 @@ export default {
       }
     },
     draw() {
-      this.canvas.context.fillStyle = this.canvas.fillStyle;
-      this.canvas.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      let gradient = this.canvas.context.createLinearGradient(
+        0,
+        0,
+        this.canvas.width,
+        this.canvas.height
+      );
+      gradient.addColorStop(0, "#FAACA8");
+      gradient.addColorStop(1, "#DDD6F3");
 
+      this.canvas.context.fillStyle = gradient;
+      this.canvas.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
       if (this.gameOver) {
         this.canvas.context.fillStyle = "rgba(255, 255, 255, 0.2)";
         this.canvas.context.font = this.canvas.width / 10 + "px Open Sans";
@@ -232,5 +241,7 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   animation-duration: 1.5s;
+  background-color: #faaca8;
+  background-image: linear-gradient(19deg, #faaca8 0%, #ddd6f3 100%);
 }
 </style>
