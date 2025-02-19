@@ -1,3 +1,3 @@
-# Day 3 - Snake
+# Day 4 - Snake
 
 Link: https://antonioooooooooooo.github.io/snake/
